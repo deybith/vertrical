@@ -15,6 +15,7 @@ export const httpAdapter = (routes: IMappedRoutes[]): express.Application => {
       } catch (e) {
         res.status(HttpStatus.BAD_REQUEST).send((e as Error).message)
       }
+      next()
     })
   }
   

@@ -47,12 +47,13 @@ export const scanner = (metatype: Type<any>): IMappedRoutes[] => {
         const methodName = methods[i] as string
         const methodInstance = controllerInstance[methodName]
         const methodMetadata = Reflect.getMetadata(METHOD_METADATA, methodInstance)
+        if (methodMetadata === undefined) continue
         const pathMetadata = Reflect.getMetadata(PATH_METADATA, methodInstance)
         const httpResponseMetadata = Reflect.getMetadata(HTTP_CODE_METADATA, methodInstance)
         routes.push({
           method: methodMetadata as RequestMethod,
           path: `/${trim(basePath, '/')}/${trim(pathMetadata, '/')}`,
-          callback: methodInstance,
+          callback: methodInstance.bind(controllerInstance),
           responseCode: httpResponseMetadata,
         })
       }
