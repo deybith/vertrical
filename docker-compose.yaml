@@ -1,0 +1,12 @@
+version: '3.1'
+services:
+  postgres:
+    build:
+      context: .docker/postgres
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432  
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
