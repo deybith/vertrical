@@ -1,0 +1,23 @@
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.vertical-auto {
+  max-height: 100%;
+  display: flex;
+  flex-direction: column; /* defined the main axis */
+  justify-content: center; /* y-axis */
+  align-items: center; /* x-axis */
+  
+  &-full {
+    height: 100vh;
+  }
+
+  &.hidden {
+    transition: max-height 0.30s ease-out;
+    max-height: 0;
+  }
+}
