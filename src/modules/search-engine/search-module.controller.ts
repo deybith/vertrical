@@ -2,8 +2,7 @@ import { Controller, Get, HttpCode, Post } from "@core/common";
 import { HttpStatus } from "@core/common/enums";
 
 @Controller('search')
-export class SearchEngineController {
-  
+export class SearchEngineController {  
   @Post('/post')
   @HttpCode(HttpStatus.CREATED)
   getHello(): string {
@@ -11,7 +10,20 @@ export class SearchEngineController {
   }
 
   @Get()
-  other(): string {
-    return 'other path '
+  other(): {} {
+    return this.nothing()
   } 
+
+  @Get('otherl')
+  @HttpCode(HttpStatus.ACCEPTED)
+  otherl(): string {
+    //throw new Error('No sirve')
+    return 'other l lll path '
+  } 
+
+  nothing() {
+    return {
+      hey: 'hey'
+    }
+  }
 }
