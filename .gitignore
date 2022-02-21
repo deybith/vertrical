@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+*.code-workspace
+
+# misc
+.DS_Store
+
+# dotenv
+# .env # is enable for testing purposes
+
+# next
+**/.next
+front/.next
+.next
