@@ -7,9 +7,9 @@ export const httpAdapter = (routes: IMappedRoutes[]): express.Application => {
   const expressApp = express()
 
   const createRoute = (expressFnc: any, route: IMappedRoutes) => {
-    expressFnc(route.path, (req: express.Request, res: express.Response)  => {
+    expressFnc(route.path, async (req: express.Request, res: express.Response)  => {
       try {
-        const methodResponse = route.callback(req, res)
+        const methodResponse = await route.callback(req, res)
         if (route.responseCode) res.status(route.responseCode)
         res.send(methodResponse)
       } catch (e) {
