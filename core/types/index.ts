@@ -31,6 +31,6 @@ export interface ServerFunctionInterface {
 
 
 export interface Server {
-  adapter: (adapter: (arg0: express.Application) => void) => void
+  adapter: (adapter: express.Application) => void
   listen: (port: number) => void
 }

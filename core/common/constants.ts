@@ -1,6 +1,7 @@
 export const MODULE_METADATA = {
   IMPORTS: 'imports',
   CONTROLLERS: 'controllers',
+  PATH: 'path',
 };
 
 export const PATH_METADATA = 'path';

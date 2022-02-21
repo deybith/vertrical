@@ -6,28 +6,39 @@ import { trim } from "@core/common/utils/trim.util"
 import logger from "@core/logger"
 
 export const scanner = (metatype: Type<any>): IMappedRoutes[] => {
-  const modules : Type<any>[] = []
-  const controllers : Type<any>[] = []
+  const modules : {basePath: string, module: Type<any>}[] = []
+  const controllers : {basePath: string, controller: Type<any>}[] = []
   const routes : IMappedRoutes[] = []
 
   const reflectMetadata = (metatype: Type<any>, metadataKey: string) => {
     return Reflect.getMetadata(metadataKey, metatype) || [];
   }
 
-  const reflectImports = (module: Type<any>): void => {
+  const reflectStringMetadata = (metatype: Type<any>, metadataKey: string) => {
+    return Reflect.getMetadata(metadataKey, metatype) || '';
+  }
+
+  const reflectImports = (module: Type<any>, basePath: string = ''): void => {
     const imports: Type<any>[] = reflectMetadata(module, MODULE_METADATA.IMPORTS)
+    const moduleBasePath: string = reflectStringMetadata(module, MODULE_METADATA.PATH)
+    if (!basePath && moduleBasePath) basePath = moduleBasePath
     if (imports && imports.length) {
       for (const related of imports) {
-        reflectImports(reflectMetadata(related, MODULE_METADATA.IMPORTS))
-        modules.push(related)
+        const relatedBasePath: string = reflectStringMetadata(related, MODULE_METADATA.PATH)
+        reflectImports(reflectMetadata(related, MODULE_METADATA.IMPORTS), basePath += relatedBasePath && `/${trim(relatedBasePath, '/')}`)
+        modules.push({basePath, module: related})
       }
     }
   }
 
   const reflectControllers = () => {
     if (modules && modules.length) {
-      const AllControllers = modules.reduce((acc: Type<any>[], next): Type<any>[] => {
-        const relatedControllers: Type<any>[] = reflectMetadata(next, MODULE_METADATA.CONTROLLERS)
+      const AllControllers = modules.reduce((acc: {basePath: string, controller: Type<any>}[], next) => {
+        const relatedControllers = reflectMetadata(next.module, MODULE_METADATA.CONTROLLERS)
+          .map((controller: Type<any>) => ({
+            basePath: next.basePath,
+            controller,
+          }))
         acc.push(...relatedControllers)
         return acc
       }, [])
@@ -37,8 +48,10 @@ export const scanner = (metatype: Type<any>): IMappedRoutes[] => {
   }
 
   const getRoutes = () => {
-    controllers.forEach(Controller => {
+    controllers.forEach(ctrl => {
      
+      const Controller = ctrl.controller
+      const moduleBasePath = ctrl.basePath
       const basePath = reflectMetadata(Controller, PATH_METADATA)
       const methods = Reflect.ownKeys(Controller.prototype)
       
@@ -52,7 +65,7 @@ export const scanner = (metatype: Type<any>): IMappedRoutes[] => {
         const httpResponseMetadata = Reflect.getMetadata(HTTP_CODE_METADATA, methodInstance)
         routes.push({
           method: methodMetadata as RequestMethod,
-          path: `/${trim(basePath, '/')}/${trim(pathMetadata, '/')}`,
+          path: `${moduleBasePath}/${trim(basePath, '/')}/${trim(pathMetadata, '/')}`,
           callback: methodInstance.bind(controllerInstance),
           responseCode: httpResponseMetadata,
         })
