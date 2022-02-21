@@ -7,7 +7,7 @@ export const httpAdapter = (routes: IMappedRoutes[]): express.Application => {
   const expressApp = express()
 
   const createRoute = (expressFnc: any, route: IMappedRoutes) => {
-    expressFnc(route.path, (req: express.Request, res: express.Response, next: express.NextFunction)  => {
+    expressFnc(route.path, (req: express.Request, res: express.Response)  => {
       try {
         const methodResponse = route.callback(req, res)
         if (route.responseCode) res.status(route.responseCode)
@@ -15,7 +15,6 @@ export const httpAdapter = (routes: IMappedRoutes[]): express.Application => {
       } catch (e) {
         res.status(HttpStatus.BAD_REQUEST).send((e as Error).message)
       }
-      next()
     })
   }
   
