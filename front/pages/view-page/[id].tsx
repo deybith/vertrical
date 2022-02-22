@@ -10,11 +10,11 @@ const ViewPage = () => {
   const id = router.query.id as string
 
   useEffect(() => {
-    getItem()
+    getItem(id)
   }, [id])
   
-  const getItem = async () => {
-    const item = await searchByIdService(id)
+  const getItem = async (searchId) => {
+    const item = await searchByIdService(searchId)
     setItem(item)
   }
 

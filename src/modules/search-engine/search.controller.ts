@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, Post } from "@core/common";
+import { Controller, Get, HttpCode } from "@core/common";
 import { HttpStatus } from "@core/common/enums";
 import express from 'express'
 import { SearchService } from "./search.service";

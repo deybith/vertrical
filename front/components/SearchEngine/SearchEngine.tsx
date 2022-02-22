@@ -17,6 +17,7 @@ export const SearchEngine = ({ onFind, defaultValue }) => {
   return <div className={cx({"vertical-auto": !inSearch, "vertical-auto-full": !inSearch, "in-search": inSearch})} >
       <Container className="mt-5 p-1" >
         <Image
+          alt="Logo"
           src={inSearch ? imageIcon : logo}
         />
       </Container>

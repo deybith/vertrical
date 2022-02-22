@@ -1,5 +1,4 @@
-import { HttpStatus } from '@core/common/enums'
-import { RequestMethod } from '@core/common/enums/request-method.enum'
+import { HttpStatus, RequestMethod } from '@core/common/enums'
 import { IMappedRoutes } from '@core/common/interfaces/routes.interfaces'
 import express from 'express'
 
@@ -28,9 +27,6 @@ export const httpAdapter = (routes: IMappedRoutes[]): express.Application => {
         break;
       case RequestMethod.PUT:
         createRoute(expressApp.put.bind(expressApp), route)
-        break;
-      case RequestMethod.PATCH:
-        createRoute(expressApp.patch.bind(expressApp), route)
         break;
       case RequestMethod.PATCH:
         createRoute(expressApp.patch.bind(expressApp), route)

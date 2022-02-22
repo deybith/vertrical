@@ -44,7 +44,7 @@ const logFactory = (logType: string) => <T>(message: string, meta?: T) => {
   logger.log(logType, `- ${prefix}${message}`.padStart(lpad), meta);
 }
 
-export default {
+const customLogger =  {
   critical: <T>(message: string, meta?: T): void => {
     logFactory('critical')(message, meta);
   },
@@ -64,3 +64,6 @@ export default {
     logger.level = level;
   },
 };
+
+
+export default customLogger

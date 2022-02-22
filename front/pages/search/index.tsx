@@ -5,7 +5,7 @@ import { searchService } from "@front/services/search.service"
 import Router, { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 
-const Index = ({ }) => {
+const Index = () => {
   const router = useRouter()
   const [text, setText] = useState(router.query?.q || '')
   const [listResults, setListResults] = useState([])
@@ -14,7 +14,7 @@ const Index = ({ }) => {
     if (text) {
       getResults(text)
     }
-  }, [])
+  })
 
   const handleFind = (textToFind) => {
     Router.push(`/search?q=${textToFind}`)
@@ -36,7 +36,7 @@ const Index = ({ }) => {
       {text && listResults.length ? 
         <ResultList list={listResults} /> : 
         <div className="alert alert-warning">
-            Your search - "{text}" - did not match any documents.
+            Your search - &quot;{text}&quot; - did not match any documents.
         </div>}
     </>
   )

@@ -19,6 +19,7 @@ export const ResultItem = ({ img, title, description, id }) => {
       <Col md={2} className="of-hidden relative">
         <div className="image-centered">
           <img
+            alt="Item image"
             src={img}
             height={100}
           />

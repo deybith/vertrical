@@ -5,8 +5,12 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "seed": "prisma db seed",
+    "migrate": "prisma migrate dev",
+    "lint": "eslint \"**/*.ts*\" --ignore-pattern node_modules/ --fix",
     "build:front": "cd front && next build",
-    "dev": "NODE_ENV=development nodemon --watch 'src/**/*.ts' --watch 'core/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register src/main.ts",
+    "dev:script": "NODE_ENV=development nodemon --watch 'src/**/*.ts' --watch 'core/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' -r tsconfig-paths/register src/main.ts",
+    "dev": "yarn migrate && yarn dev:script",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -26,6 +30,7 @@
     "@types/reactstrap": "^8.7.2",
     "@types/reflect-metadata": "^0.1.0",
     "@types/socket.io": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^16.0.0",

@@ -18,7 +18,7 @@ export const scanner = (metatype: Type<any>): IMappedRoutes[] => {
     return Reflect.getMetadata(metadataKey, metatype) || '';
   }
 
-  const reflectImports = (module: Type<any>, basePath: string = ''): void => {
+  const reflectImports = (module: Type<any>, basePath = ''): void => {
     const imports: Type<any>[] = reflectMetadata(module, MODULE_METADATA.IMPORTS)
     const moduleBasePath: string = reflectStringMetadata(module, MODULE_METADATA.PATH)
     if (!basePath && moduleBasePath) basePath = moduleBasePath
